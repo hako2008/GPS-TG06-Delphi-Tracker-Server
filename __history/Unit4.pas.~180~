@@ -1,0 +1,155 @@
+unit Unit4;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Data.DB,
+  Datasnap.DBClient, Datasnap.Win.MConnect, Datasnap.Win.SConnect,
+  IdBaseComponent, IdComponent, IdCustomTCPServer, IdTCPServer,
+  System.Win.ScktComp,IdContext,IdGlobal,IDSync, IdTCPConnection, IdTCPClient;
+
+type
+  TForm4 = class(TForm)
+    Memo1: TMemo;
+    ServerSocket1: TServerSocket;
+    Button1: TButton;
+    Edit1: TEdit;
+    ClientSocket1: TClientSocket;
+    IdTCPServer1: TIdTCPServer;
+    Button2: TButton;
+    Edit2: TEdit;
+    Button3: TButton;
+    IdTCPClient1: TIdTCPClient;
+
+    procedure FormActivate(Sender: TObject);
+    procedure ServerSocket1Accept(Sender: TObject; Socket: TCustomWinSocket);
+    procedure ServerSocket1ClientRead(Sender: TObject;
+      Socket: TCustomWinSocket);
+    procedure Button1Click(Sender: TObject);
+    procedure IdTCPServer1Execute(AContext: TIdContext);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+    Stream: TMemoryStream;
+    FSize: Integer;
+    writing: Boolean;
+  public
+    { Public declarations }
+    Terminal : array of string;
+  end;
+
+var
+  Form4: TForm4;
+
+implementation
+
+{$R *.dfm}
+
+uses uCRC, uGPS;
+
+procedure onLogin(imei: string; Serial: word);
+begin
+  Form4.Memo1.Lines.Add(imei + ' logged in: ' + IntToStr(Serial));
+end;
+
+procedure TForm4.Button1Click(Sender: TObject);
+
+begin
+
+  IdTCPClient1.Host := '41.111.44.206';
+  IdTCPClient1.Port:=strtoint(Edit2.Text);
+  IdTCPClient1.Connect;
+  IdTCPClient1.Socket.WriteLn(Edit1.Text);
+  //ClientSocket1.Socket.SendText(Edit1.Text);
+
+
+end;
+
+procedure TForm4.Button2Click(Sender: TObject);
+begin
+ //
+ IdTcpServer1.DefaultPort := strtoint(Edit2.Text);
+ //IdTcpServer1.Active := True;
+
+ {IdTCPClient1.Host := '41.105.58.201';
+  IdTCPClient1.Port:=9090;
+   IdTCPClient1.Connect;}
+ //Memo1.Lines.Add('ready.....');
+ //ClientSocket1.Active := True;
+end;
+
+procedure TForm4.Button3Click(Sender: TObject);
+begin
+    IdTcpServer1.Active := False;
+    Memo1.Lines.Clear;
+end;
+
+procedure TForm4.FormActivate(Sender: TObject);
+begin
+  IdTcpServer1.DefaultPort := strtoint(Edit2.Text);
+  IdTcpServer1.Active := true;
+  ClientSocket1.Host := '41.105.61.164';
+  Memo1.Lines.Add('ready.....');
+
+
+end;
+
+procedure TForm4.FormCreate(Sender: TObject);
+begin
+  uGPS.onLogin(onLogin);
+end;
+
+function BytesToString(const Value: TBytes): WideString;
+begin
+  SetLength(Result, Length(Value) div SizeOf(WideChar));
+  if Length(Result) > 0 then
+    Move(Value[0], Result[1], Length(Value));
+end;
+
+procedure TForm4.IdTCPServer1Execute(AContext: TIdContext);
+var
+  s: String;
+  aByte: Byte;
+  start, information, serial, error, stop, data: TIdBytes;
+  length, protocol: byte;
+  crc: word;
+  i: Integer;
+begin
+  {s := AContext.Connection.IOHandler.ReadLn();//AContext.Connection.IOHandler.ReadLn(IndyUTF16BigEndianEncoding);
+    Memo1.Lines.Add(s);}
+  Memo1.Lines.Add('host : '+AContext.Connection.Socket.Binding.PeerIP);
+  uGPS.onRecieve(AContext.Connection.IOHandler, s);
+  Memo1.Lines.Add(s);
+end;
+
+procedure TForm4.ServerSocket1Accept(Sender: TObject; Socket: TCustomWinSocket);
+begin
+  Memo1.Lines.Add('RemoteAddress : '+Socket.RemoteAddress);
+  Memo1.Lines.Add('RemoteHost : '+Socket.RemoteHost);
+  Memo1.Lines.Add('LocalAddress : '+Socket.LocalAddress);
+  Memo1.Lines.Add('LocalHost : '+Socket.LocalHost);
+
+
+end;
+procedure TForm4.ServerSocket1ClientRead(Sender: TObject;
+  Socket: TCustomWinSocket);
+var
+      RecvStr : String;
+      Buffer:array[0..999] of Ansichar;
+
+begin
+    RecvStr := Socket.ReceiveText;
+    //Socket.ReceiveBuf(Buffer,Socket.ReceiveLength);
+    Memo1.Lines.Add('message : '+RecvStr);
+    Memo1.Lines.Add('AnsiString : '+AnsiString(RecvStr));
+    Memo1.Lines.Add(' : '+RecvStr);
+
+  //Memo1.Lines.Add('message : '+Socket.ReceiveText());
+  //ClientSocket1.Active := false;
+
+end;
+
+end.

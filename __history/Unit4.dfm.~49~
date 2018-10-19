@@ -1,0 +1,55 @@
+object Form4: TForm4
+  Left = 0
+  Top = 0
+  Caption = 'Tracker'
+  ClientHeight = 377
+  ClientWidth = 792
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  WindowState = wsMaximized
+  OnActivate = FormActivate
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Memo1: TMemo
+    Left = 8
+    Top = 35
+    Width = 776
+    Height = 291
+    TabOrder = 0
+  end
+  object Edit2: TEdit
+    Left = 8
+    Top = 8
+    Width = 60
+    Height = 21
+    NumbersOnly = True
+    TabOrder = 1
+    Text = '20488'
+  end
+  object IdTCPServer1: TIdTCPServer
+    Bindings = <>
+    DefaultPort = 0
+    OnExecute = IdTCPServer1Execute
+    Left = 88
+  end
+  object IdTCPClient1: TIdTCPClient
+    ConnectTimeout = 0
+    IPVersion = Id_IPv4
+    Port = 0
+    ReadTimeout = -1
+    Left = 136
+  end
+  object NetHTTPClient1: TNetHTTPClient
+    AllowCookies = True
+    HandleRedirects = True
+    UserAgent = 'Embarcadero URI Client/1.0'
+    Left = 200
+  end
+end

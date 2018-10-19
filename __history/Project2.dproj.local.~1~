@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899/12/30 00:00:00.000.438,=C:\Users\hamza\Documents\Embarcadero\Studio\Projects\Unit4.pas</Transaction>
+    <Transaction>2018/07/22 15:36:51.000.605,=C:\Users\Informaticien\Documents\Embarcadero\Studio\Projects\Unit4.pas</Transaction>
+    <Transaction>2018/07/22 15:38:01.000.318,C:\Users\Informaticien\Documents\Embarcadero\Studio\Projects\Unit4.dfm=C:\Users\Informaticien\Documents\Embarcadero\Studio\Projects\tracker\Unit4.dfm</Transaction>
+    <Transaction>2018/07/22 15:38:01.000.318,C:\Users\Informaticien\Documents\Embarcadero\Studio\Projects\Unit4.pas=C:\Users\Informaticien\Documents\Embarcadero\Studio\Projects\tracker\Unit4.pas</Transaction>
+    <Transaction>2018/07/22 15:51:22.000.142,C:\Users\Informaticien\Documents\Embarcadero\Studio\Projects\Project2.dproj=C:\Users\Informaticien\Documents\Embarcadero\Studio\Projects\tracker\Project2.dproj</Transaction>
+    <Transaction>2018/10/16 23:25:52.782,=C:\Users\hamza\Documents\Embarcadero\Studio\Projects\tracker\Unit1.pas</Transaction>
+    <Transaction>2018/10/16 23:26:01.975,C:\Users\hamza\Documents\Embarcadero\Studio\Projects\tracker\uGPS.pas=C:\Users\hamza\Documents\Embarcadero\Studio\Projects\tracker\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
